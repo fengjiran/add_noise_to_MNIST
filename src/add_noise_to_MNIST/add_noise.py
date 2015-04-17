@@ -60,7 +60,7 @@ def get_corrupted_input_gaussian(theano_rng, input):
     """
     return 0.9*theano_rng.normal(size = input.shape, avg = 0.0,
                               std = 0.1, dtype = theano.config.floatX) + 0.1*theano_rng.normal(size=input.shape, 
-                              avg=4, std=0.1, dtype=theano.config.floatX) + input
+                              avg=4.0, std=0.1, dtype=theano.config.floatX) + input
 
 
 
@@ -76,11 +76,12 @@ def test(dataset = 'mnist.pkl.gz', output_folder = 'plots'):
     rng = numpy.random.RandomState(123)
     theano_rng = RandomStreams(rng.randint(2 ** 30))
     
-    input = T.dmatrix('input')
+    input = T.matrix('input')
     
     output = get_corrupted_input_gaussian(theano_rng = theano_rng, input = input)
     
     corrupt = theano.function([input], output)
+    
     
     mnist_noise = corrupt(train_set_x.get_value(borrow = True))
     mnist_noise = theano.shared(value=mnist_noise, name='mnist_noise', borrow = True)
@@ -88,14 +89,14 @@ def test(dataset = 'mnist.pkl.gz', output_folder = 'plots'):
 #     print mnist_noise.get_value(borrow=True)[0]
     
     image_clean = Image.fromarray(tile_raster_images(X = train_set_x.get_value(borrow = True),
-                                               img_shape=(28, 28), tile_shape=(10, 10),
+                                               img_shape=(28, 28), tile_shape=(1, 6),
                                                tile_spacing=(1,1)))
-    image_clean.save('clean.png')
+    image_clean.save('clean_6.png')
     
     image_noise = Image.fromarray(tile_raster_images(X = mnist_noise.get_value(borrow = True),
-                                               img_shape=(28, 28), tile_shape=(10, 10),
+                                               img_shape=(28, 28), tile_shape=(1, 6),
                                                tile_spacing=(1,1)))
-    image_noise.save('noise.png')
+    image_noise.save('noise_6.png')
     
     print 'Done!'
 

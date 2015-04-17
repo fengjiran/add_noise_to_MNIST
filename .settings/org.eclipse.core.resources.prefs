@@ -1,2 +1,3 @@
 eclipse.preferences.version=1
 encoding//src/add_noise_to_MNIST/add_noise.py=utf-8
+encoding//src/add_noise_to_MNIST/reconstruction_error.py=utf-8
