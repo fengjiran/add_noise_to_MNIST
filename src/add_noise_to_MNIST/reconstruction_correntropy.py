@@ -305,19 +305,19 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     
     #Add Gaussian noise to MNIST
     #The pdf is p(x) = 0.9*N(0, 0.1) + 0.1*N(4, 0.1)
-    inp = T.matrix('inp')
-    outp = 0.9*theano_rng.normal(size = inp.shape, 
-                                        avg = 0.0, 
-                                        std = 0.1, 
-                                        dtype = theano.config.floatX) + \
-                                        0.1*theano_rng.normal(inp.shape,
-                                                              avg = 4.0,
-                                                              std = 0.1,
-                                                              dtype = theano.config.floatX) + inp
-                                                               
-    Gaussian_noise = theano.function([inp], outp)
-    train_set_x = Gaussian_noise(train_set_x.get_value(borrow = True))
-    train_set_x = theano.shared(value=train_set_x, name = 'train_set_x', borrow = True)
+#     inp = T.matrix('inp')
+#     outp = 0.9*theano_rng.normal(size = inp.shape, 
+#                                         avg = 0.0, 
+#                                         std = 0.1, 
+#                                         dtype = theano.config.floatX) + \
+#                                         0.1*theano_rng.normal(inp.shape,
+#                                                               avg = 4.0,
+#                                                               std = 0.1,
+#                                                               dtype = theano.config.floatX) + inp
+#                                                                
+#     Gaussian_noise = theano.function([inp], outp)
+#     train_set_x = Gaussian_noise(train_set_x.get_value(borrow = True))
+#     train_set_x = theano.shared(value=train_set_x, name = 'train_set_x', borrow = True)
     
     ####################################
     # BUILDING THE MODEL NO CORRUPTION #
@@ -384,7 +384,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
         tile_raster_images(X=reconstruction_image,
                            img_shape=(28, 28), tile_shape=(1, 6),
                            tile_spacing=(1, 1)))
-    image.save('reconstruction.png')
+    image.save('reconstruction_original_ce.png')
     
 #     image = Image.fromarray(
 #         tile_raster_images(X=da.W.get_value(borrow=True).T,
