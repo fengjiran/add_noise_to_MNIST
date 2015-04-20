@@ -314,7 +314,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
                                                               avg = 4.0,
                                                               std = 0.1,
                                                               dtype = theano.config.floatX) + inp
-                                                              
+                                                               
     Gaussian_noise = theano.function([inp], outp)
     train_set_x = Gaussian_noise(train_set_x.get_value(borrow = True))
     train_set_x = theano.shared(value=train_set_x, name = 'train_set_x', borrow = True)
@@ -332,7 +332,7 @@ def test_dA(learning_rate=0.1, training_epochs=15,
     )
 
     cost, updates, z = da.get_cost_updates(
-        corruption_level=0.7,
+        corruption_level=0.2,
         learning_rate=learning_rate
     )
 
@@ -367,10 +367,11 @@ def test_dA(learning_rate=0.1, training_epochs=15,
         c = []
         for batch_index in xrange(n_train_batches):
             c.append(train_da(batch_index))
-            reconstruction_image = reconstruction(batch_index)
+            #reconstruction_image = reconstruction(batch_index)
 
         print 'Training epoch %d, cost ' % epoch, numpy.mean(c)
 
+    reconstruction_image = reconstruction(0)
     end_time = time.clock()
 
     training_time = (end_time - start_time)
